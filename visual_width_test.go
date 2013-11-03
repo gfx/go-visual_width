@@ -63,10 +63,30 @@ func TestMeasureMixed(t *testing.T) {
 	a.Equal(t, Measure("こんにちは ｺﾝﾆﾁﾊ αβγδε", false), 22)
 }
 
+func TestTruncateAscii(t *testing.T) {
+	a.Equal(t, Truncate("abcdefghij", true, 7, "..."), "abcd...")
+	a.Equal(t, Truncate("abcdefghij", true, 8, "..."), "abcde...")
+	a.Equal(t, Truncate("abcdefghij", true, 9, "..."), "abcdef...")
+	a.Equal(t, Truncate("abcdefghij", true, 10, "..."), "abcdefghij")
+}
+
+func TestTruncateHiragana(t *testing.T) {
+	a.Equal(t, Truncate("こんにちは", true, 7, "..."), "こん...")
+	a.Equal(t, Truncate("こんにちは", true, 8, "..."), "こん...")
+	a.Equal(t, Truncate("こんにちは", true, 9, "..."), "こんに...")
+	a.Equal(t, Truncate("こんにちは", true, 10, "..."), "こんにちは")
+}
+
 // benchmarks
 
 func BenchmarkMeasure(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		var _ = Measure(str, true)
+	}
+}
+
+func BenchmarkTruncate(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		var _ = Truncate(str, true, 100, "...")
 	}
 }
