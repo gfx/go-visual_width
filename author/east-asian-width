@@ -97,7 +97,7 @@ macro range -> $r {
 }
 -:>
 : macro make_conditions -> $t, $name {
-var <: $name :> = `[` +
+const <: $name :> = `[` +
   : for $t -> $range {
   `<: range($range) :>` +
   : }

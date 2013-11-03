@@ -2,31 +2,71 @@ package visual_width
 
 import (
 	a "github.com/stretchr/testify/assert"
+	"strings"
 	"testing"
 )
 
-func TestMeasureAscii(t *testing.T) {
-	a.Equal(t, Measure(""), 0)
+var str = strings.Trim(`
+Googleは2009年11月10日(米国時間)、オープンソースのプログラミング言語「Go」を発表しました。
+Go言語は、Linux、Mac、Native Clientで動作する開発言語で、Android携帯上でも動作します。
+まだ発表されたばかりなのでこれからの動向が注目されています。
 
-	a.Equal(t, Measure("foo"), 3)
-	a.Equal(t, Measure("..."), 3)
+特徴はGoogleによると・・
+
+・シンプルな言語である。
+・コンパイル・実行速度が早い。
+・安全性が高い。
+・同期処理が容易に行える。
+・なにより楽しい。
+・オープンソースである。
+
+これらについてもう少し掘り下げてみてみましょう。
+`, " \r\n")
+
+func TestMeasureAscii(t *testing.T) {
+	a.Equal(t, Measure("", true), 0)
+
+	a.Equal(t, Measure("foo", true), 3)
+	a.Equal(t, Measure("...", true), 3)
+
+	a.Equal(t, Measure("", false), 0)
+
+	a.Equal(t, Measure("foo", false), 3)
+	a.Equal(t, Measure("...", false), 3)
 }
 
 func TestMeasureHiragana(t *testing.T) {
-	a.Equal(t, Measure("こんにちは"), 10)
-	a.Equal(t, Measure("こ ん に ち は"), 14)
+	a.Equal(t, Measure("こんにちは", true), 10)
+	a.Equal(t, Measure("こ ん に ち は", true), 14)
+
+	a.Equal(t, Measure(str, true), 459)
 }
 
 func TestMeasureHalfKatakana(t *testing.T) {
-	a.Equal(t, Measure("ｺﾝﾆﾁﾊ"), 5)
-	a.Equal(t, Measure("ｺ ﾝ ﾆ ﾁ ﾊ"), 9)
+	a.Equal(t, Measure("ｺﾝﾆﾁﾊ", true), 5)
+	a.Equal(t, Measure("ｺ ﾝ ﾆ ﾁ ﾊ", true), 9)
+
+	a.Equal(t, Measure("ｺﾝﾆﾁﾊ", false), 5)
+	a.Equal(t, Measure("ｺ ﾝ ﾆ ﾁ ﾊ", false), 9)
 }
 
 func TestMeasureAmbiguous(t *testing.T) {
-	a.Equal(t, Measure("αβγδε"), 10)
-	a.Equal(t, Measure("α β γ δ ε"), 14)
+	a.Equal(t, Measure("αβγδε", true), 10)
+	a.Equal(t, Measure("α β γ δ ε", true), 14)
+
+	a.Equal(t, Measure("αβγδε", false), 5)
+	a.Equal(t, Measure("α β γ δ ε", false), 9)
 }
 
 func TestMeasureMixed(t *testing.T) {
-	a.Equal(t, Measure("こんにちは ｺﾝﾆﾁﾊ αβγδε"), 27)
+	a.Equal(t, Measure("こんにちは ｺﾝﾆﾁﾊ αβγδε", true), 27)
+	a.Equal(t, Measure("こんにちは ｺﾝﾆﾁﾊ αβγδε", false), 22)
+}
+
+// benchmarks
+
+func BenchmarkMeasure(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		var _ = Measure(str, true)
+	}
 }

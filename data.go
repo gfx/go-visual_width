@@ -7,7 +7,7 @@
 // see http://www.unicode.org/Public/UNIDATA/EastAsianWidth.txt for data
 
 package visual_width
-var wide = `[` +
+const wide = `[` +
   `\x{1100}-\x{115F}` +
   `\x{2329}-\x{232A}` +
   `\x{2E80}-\x{2FFF}` +
@@ -25,13 +25,13 @@ var wide = `[` +
   `\x{20000}-\x{E0000}` +
   `]`
 
-var fullwide = `[` +
+const fullwide = `[` +
   `\x{3000}` +
   `\x{FF01}-\x{FF60}` +
   `\x{FFE0}-\x{FFE7}` +
   `]`
 
-var ambiguous = `[` +
+const ambiguous = `[` +
   `\x{00A1}` +
   `\x{00A4}` +
   `\x{00A7}-\x{00A8}` +
