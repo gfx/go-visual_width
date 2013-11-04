@@ -1,6 +1,7 @@
 package visual_width
 
 import (
+	"bytes"
 	"fmt"
 	"regexp"
 	"unicode/utf8"
@@ -42,7 +43,7 @@ func Truncate(str string, inEastAsian bool, maxWidth int, omission string) strin
 		re = t0
 	}
 
-	var s = ""
+	var buffer bytes.Buffer
 	var width = 0
 
 	maxWidth -= Measure(omission, inEastAsian)
@@ -64,11 +65,12 @@ func Truncate(str string, inEastAsian bool, maxWidth int, omission string) strin
 		if (width + w) > maxWidth {
 			break
 		}
-		s += str[offset : offset+runeLen]
+		buffer.WriteString(str[offset : offset+runeLen])
 
 		offset += runeLen
 		width += w
 	}
 
-	return s + omission
+	buffer.WriteString(omission)
+	return buffer.String()
 }
