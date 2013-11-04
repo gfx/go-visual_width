@@ -77,6 +77,12 @@ func TestTruncateHiragana(t *testing.T) {
 	a.Equal(t, Truncate("こんにちは", true, 10, "..."), "こんにちは")
 }
 
+func TestWrap(t *testing.T) {
+	a.Equal(t, Wrap("こんにちは", true, 10), "こんにちは")
+	a.Equal(t, Wrap("こんにちはこんにちは", true, 10), "こんにちは\nこんにちは")
+	a.Equal(t, Wrap("こんにちは\nこんにちは", true, 10), "こんにちは\nこんにちは")
+}
+
 // benchmarks
 
 func BenchmarkMeasure(b *testing.B) {
