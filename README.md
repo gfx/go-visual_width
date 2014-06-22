@@ -1,4 +1,4 @@
-# `visual_width` package
+# `visual_width` package [![Build Status](https://travis-ci.org/gfx/go-visual_width.svg)](https://travis-ci.org/gfx/go-visual_width)
 
 This is a go-lang package to deal with visual width, or Unicode East Asian Width.
 
