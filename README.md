@@ -23,6 +23,11 @@ func main() {
 }
 ```
 
+## SPECIFICATION
+
+* http://www.unicode.org/reports/tr11/
+* http://www.unicode.org/Public/UNIDATA/EastAsianWidth.txt
+
 ## LICENSE
 
 This library can be distributed under the MIT License.
