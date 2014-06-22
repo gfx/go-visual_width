@@ -1,5 +1,5 @@
 
-test:
+test: deps
 	go test --test.v=true
 
 bench:
@@ -8,5 +8,8 @@ bench:
 data:
 	author/east-asian-width > data.go
 
+deps:
+	go get "github.com/stretchr/testify/assert"
 
-.PHONY: data test
+
+.PHONY: data test deps
